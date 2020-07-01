@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Aula27_28_29_30
 {
@@ -63,8 +64,54 @@ namespace Aula27_28_29_30
                 produtos.Add(p);
              }
 
+             produtos = produtos.OrderBy(y => y.Nome).ToList();
+
              return produtos;
          } 
+
+         /// <summary>
+         /// Remove uma ou mais linhas que contenham o termo
+         /// </summary>
+         /// <param name="_termo">termo para ser buscado</param>
+
+
+        public void Remover(string _termo){
+
+            // criamos uma lista que servirá como uma espécie de backup para as linhas do csv
+            List<string> linhas = new List<string>();
+
+            //Ultilizamos a biblioteca StreamReader para ler nosso .csv
+            using(StreamReader arquivo = new StreamReader (PATH))
+            {
+             string linha;
+             while((linha = arquivo.ReadLine()) != null)
+             {
+             linhas.Add(linha);
+             }
+            }
+
+             //Removemos as linhas que tiveram o termo passado como argumento
+             //codigo=1;nome=Tagima;preco=7500
+             //Tagima 
+             linhas.RemoveAll(l => l.Contains(_termo ));
+
+             //Reescrevemos nosso csv do zero
+            using(StreamWriter output = new StreamWriter(PATH))
+            {
+                foreach(string ln in linhas)
+                {
+                    output.Write(ln + "\n");
+                }
+            }
+
+        }
+
+
+          public List<Produto> Filtrar(string _nome)
+          {
+              return Ler().FindAll(x => x.Nome == _nome);
+          }
+
          private string Separar(string _coluna)
          {
              //0      1
