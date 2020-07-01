@@ -10,21 +10,18 @@ namespace Aula27_28_29_30
             
             Produto p1 = new Produto();
             p1.Codigo = 1;
-            p1.Nome = "Ela";
+            p1.Nome = "Gibson";
             p1.Preco = 7500f;
-
+           
             p1.Cadastrar(p1);
-            p1.Remover("sledge");
+            p1.Remover("Fender");
 
             List<Produto> lista = p1.Ler();
           
-            foreach(Produto item in lista){
- 
+            foreach(Produto item in lista) 
+            {
             Console.WriteLine($"R$ {item.Preco} - {item.Nome}");
             }
-
-        
-        
 
         }
         
