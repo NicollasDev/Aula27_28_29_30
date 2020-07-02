@@ -93,20 +93,59 @@ namespace Aula27_28_29_30
              //Removemos as linhas que tiveram o termo passado como argumento
              //codigo=1;nome=Tagima;preco=7500
              //Tagima 
-             linhas.RemoveAll(l => l.Contains(_termo ));
+         linhas.RemoveAll(l => l.Contains(_termo ));
 
              //Reescrevemos nosso csv do zero
-            using(StreamWriter output = new StreamWriter(PATH))
+         ReescreverCSV(linhas);
+        }
+
+         public void Alterar(Produto produtoAlterado){
+
+              // criamos uma lista que servirá como uma espécie de backup para as linhas do csv
+            List<string> linhas = new List<string>();
+
+            //Ultilizamos a biblioteca StreamReader para ler nosso .csv
+            using(StreamReader arquivo = new StreamReader (PATH))
             {
-                foreach(string ln in linhas)
+             string linha;
+             while((linha = arquivo.ReadLine()) != null)
+             {
+             linhas.Add(linha);
+             }
+            }
+
+         // 0
+         //codigo=3;nome=Squire;preco=7500
+         //codigo=2;nome=Squire;preco=7500
+         // 0              1
+         //codigo = //codigo=3;nome=Squire;preco=7500
+         //linhas.RemoveAll(x => x.Split(";")[0].Contains(_produtoAlterado.Codigo.ToString()));
+         linhas.RemoveAll(z => z.Split(";")[0].Split("=")[1] == produtoAlterado.Codigo.ToString());
+
+         linhas.Add( PrepararLinha( produtoAlterado ) );
+
+         ReescreverCSV(linhas);
+         }  
+
+        /// <summary>
+        /// Reescreve o CSV
+        /// </summary>
+        /// <param name="lines">Lista de linhas</param>
+
+         private void ReescreverCSV(List<string> lines){
+             
+              using(StreamWriter output = new StreamWriter(PATH))
+            {
+                foreach(string ln in lines)
                 {
                     output.Write(ln + "\n");
                 }
             }
 
-        }
+         }  
 
-
+         
+        
           public List<Produto> Filtrar(string _nome)
           {
               return Ler().FindAll(x => x.Nome == _nome);

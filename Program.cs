@@ -9,12 +9,19 @@ namespace Aula27_28_29_30
         {
             
             Produto p1 = new Produto();
-            p1.Codigo = 1;
+            p1.Codigo = 4;
             p1.Nome = "Gibson";
             p1.Preco = 7500f;
            
             p1.Cadastrar(p1);
-            p1.Remover("Fender");
+
+           Produto alterado = new Produto();
+           alterado.Codigo = 3;
+           alterado.Nome = "Ferdinando";
+           alterado.Preco = 6800f;
+           p1.Alterar(alterado);
+
+            p1.Remover("Gibson");
 
             List<Produto> lista = p1.Ler();
           
